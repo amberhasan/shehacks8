@@ -1,34 +1,20 @@
-import React, {useState} from 'react';
-import {View, TextInput, Button, StyleSheet, Alert} from 'react-native';
+// LoginScreen.tsx
 
-const LoginScreen: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+import {Button, StyleSheet, View} from 'react-native';
 
-  const handleLogin = () => {
-    // Implement your login logic here
-    Alert.alert(
-      'Login Pressed',
-      `Username: ${username}, Password: ${password}`,
-    );
+// ... other imports
+const LoginScreen: React.FC<{onLogin: () => void}> = ({onLogin}) => {
+  // ... username and password state
+
+  const handleLoginPress = () => {
+    // Perform login validation and authentication here
+    onLogin(); // Call the onLogin prop after successful authentication
   };
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button title="Login" onPress={handleLogin} />
+      {/* ... input fields */}
+      <Button title="Log In" onPress={handleLoginPress} />
     </View>
   );
 };
@@ -38,15 +24,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
-  },
-  input: {
-    width: '100%',
-    marginVertical: 10,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
   },
 });
 

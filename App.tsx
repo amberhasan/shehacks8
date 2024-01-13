@@ -1,9 +1,28 @@
 // App.tsx
-import React from 'react';
-import LoginScreen from './LoginScreen'; // Adjust the path if necessary
+import React, {useState} from 'react';
+import LoginScreen from './LoginScreen'; // Make sure the path is correct
+import HomeScreen from './HomeScreen'; // Make sure the path is correct
 
 const App: React.FC = () => {
-  return <LoginScreen />;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
+  return (
+    <>
+      {isLoggedIn ? (
+        <HomeScreen onLogout={handleLogout} />
+      ) : (
+        <LoginScreen onLogin={handleLogin} />
+      )}
+    </>
+  );
 };
 
 export default App;
