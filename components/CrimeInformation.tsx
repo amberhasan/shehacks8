@@ -8,8 +8,6 @@ const CrimeInformation = ({crimeData}) => {
     <View>
       <Text style={styles.overallCrime}>{crimeData['Overall'].Fact}</Text>
 
-      <Text style={styles.overallCrime}>{crimeData['Overall'].Fact}</Text>
-
       {crimeData['Crime BreakDown'].map(
         (
           crimeCategory,
@@ -82,6 +80,7 @@ const styles = StyleSheet.create({
     // You may want to add more styling as needed
   },
   categorySection: {
+    padding: 10,
     backgroundColor: 'white',
   },
   riskText: {
@@ -123,6 +122,7 @@ const styles = StyleSheet.create({
   overallCrime: {
     marginTop: 10,
     fontWeight: 'bold',
+    marginBottom: 10,
   },
 });
 
