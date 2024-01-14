@@ -41,7 +41,7 @@ const DonationScreen = ({navigation}) => {
         Alert.alert('Error', 'There was an error processing your donation. Please try again.');
       }
     } catch (error) {
-      console.error(error);
+    //   console.error(error);
       Alert.alert('Error', 'There was an error processing your donation. Please try again.');
     }
   };
