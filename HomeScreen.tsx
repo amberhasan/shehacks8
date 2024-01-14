@@ -10,6 +10,7 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
     latitude: 0,
     longitude: 0,
   });
+  const [crimeData, setCrimeData] = useState(null);
 
   const getZipCode = async (latitude: number, longitude: number) => {
     // Fetch zip code using Google Maps Geocoding API
@@ -60,6 +61,7 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
     getZipCode(latitude, longitude);
     try {
       const response = await axios.request(options);
+      setCrimeData(response.data);
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -87,11 +89,20 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}>
         <View style={styles.modalView}>
-          <Text>
-            Location: {selectedCoordinate.latitude},{' '}
-            {selectedCoordinate.longitude}
-          </Text>
-          <Text>Zip Code: {selectedZipCode}</Text>
+          {/* ... (other texts remain unchanged) */}
+          <Text>Crime Data:</Text>
+          {crimeData && (
+            <View>
+              {/* Map over the crime data and create text elements for each item */}
+              <Text>{`Crime Breakdown: ${JSON.stringify(
+                crimeData['Crime BreakDown'],
+                null,
+                2,
+              )}`}</Text>
+              <Text>{`Overall Crime: ${crimeData['Overall'].Fact}`}</Text>
+              {/* ... Display more data as needed */}
+            </View>
+          )}
           <Button title="Close" onPress={() => setModalVisible(false)} />
         </View>
       </Modal>
