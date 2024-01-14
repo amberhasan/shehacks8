@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 
-const DonationScreen: React.FC = (navigation) => {
+const DonationScreen = ({navigation}) => {
   const [amount, setAmount] = useState('');
   const [appId, setAppId] = useState('');
   const [userToken, setUserToken] = useState('');
@@ -11,12 +11,7 @@ const DonationScreen: React.FC = (navigation) => {
   const [isTyping, setIsTyping] = useState(false);
 
   const valuesArray = [appId, userToken, encryptionKey, challengeId];
-
-  const handleGoBack = () => {
-    navigation.navigate('Login'); // replace 'Login' with the name of your login screen
-  };
-
-
+  
 
   const handleDonate = async () => {
     if (!amount) {
@@ -75,9 +70,11 @@ const DonationScreen: React.FC = (navigation) => {
 
     <View style={styles.container}>
 
-      <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-        <Text style={styles.backButtonText}>Back</Text>
-      </TouchableOpacity>
+        {!isTyping && (
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+        )}
 
 
       <Text style={styles.title}>Donate</Text>
