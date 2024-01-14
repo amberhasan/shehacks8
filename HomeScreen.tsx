@@ -14,6 +14,11 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
   const [crimeData, setCrimeData] = useState(null);
   const [riskDetail, setRiskDetail] = useState('');
   const [riskPercent, setRiskPercent] = useState('');
+
+  const [lastPress, setLastPress] = useState(0);
+
+
+
   const getZipCode = async (latitude: number, longitude: number) => {
     // Fetch zip code using Google Maps Geocoding API
     try {
@@ -103,7 +108,17 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
+        //double click to get zip code
+        // onPress={(event) => {
+        //   const now = new Date().getTime();
+        //   if (now - lastPress < 300) { // Double press
+        //     const { latitude, longitude } = event.nativeEvent.coordinate;
+        //     getZipCode(latitude, longitude);
+        //   }
+        //   setLastPress(now);
+        // }}
         onLongPress={handleMapLongPress}
+        zoomTapEnabled={false}
       />
 
       <CrimeModal
