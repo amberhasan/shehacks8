@@ -20,6 +20,11 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+
+      <TouchableOpacity style={styles.donateButton} onPress={() => navigation.navigate('Donation')}>
+        <Text style={styles.donateButtonText}>Donate</Text>
+      </TouchableOpacity>
+      
       <Text style={styles.title}>Welcome back!</Text>
 
       <TextInput
@@ -54,6 +59,18 @@ const LoginScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  donateButton: {
+    position: 'absolute',
+    top: 10, // adjust as needed
+    right: 10, // adjust as needed
+    padding: 10, // adjust as needed
+    backgroundColor: '#A6D12E', // adjust as needed
+  },
+
+  donateButtonText: {
+    color: 'white', // adjust as needed
+  },
+  
   container: {
     flex: 1,
     justifyContent: 'center',

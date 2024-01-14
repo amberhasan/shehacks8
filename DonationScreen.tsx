@@ -51,25 +51,25 @@ const DonationScreen: React.FC = (navigation) => {
     }
   };
 
-  const handleDonate = async () => {
-    if (!amount) {
-      Alert.alert('Error', 'Please enter a donation amount');
-      return;
-    }
+//   const handleDonate = async () => {
+//     if (!amount) {
+//       Alert.alert('Error', 'Please enter a donation amount');
+//       return;
+//     }
 
-    // Call the Circle API to process the donation
-    // This is just a placeholder. You'll need to replace this with the actual API call
-    const response = await axios.post('https://api.circle.com/v1/payments', {
-      amount: amount,
-      // Other necessary data...
-    });
+//     // Call the Circle API to process the donation
+//     // This is just a placeholder. You'll need to replace this with the actual API call
+//     const response = await axios.post('https://api.circle.com/v1/payments', {
+//       amount: amount,
+//       // Other necessary data...
+//     });
 
-    if (response.status === 200) {
-      Alert.alert('Success', 'Thank you for your donation!');
-    } else {
-      Alert.alert('Error', 'There was an error processing your donation. Please try again.');
-    }
-  };
+//     if (response.status === 200) {
+//       Alert.alert('Success', 'Thank you for your donation!');
+//     } else {
+//       Alert.alert('Error', 'There was an error processing your donation. Please try again.');
+//     }
+//   };
 
   return (
 
