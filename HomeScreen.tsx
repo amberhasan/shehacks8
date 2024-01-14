@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Button, Modal, ScrollView} from 'react-native';
 import MapView from 'react-native-maps';
 import axios from 'axios';
+import CrimeModal from './components/CrimeModal';
 
 const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -46,15 +47,7 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
       console.error('Error fetching data:', error);
     }
   };
-  const options = {
-    method: 'GET',
-    url: 'https://crime-data-by-zipcode-api.p.rapidapi.com/crime_data',
-    params: {zip: '94109'},
-    headers: {
-      'X-RapidAPI-Key': '77a344c291mshc1dbd1236846856p1a5acbjsn3df9efb79bd1',
-      'X-RapidAPI-Host': 'crime-data-by-zipcode-api.p.rapidapi.com',
-    },
-  };
+
   const handleMapLongPress = async (event: any) => {
     const latitude = event.nativeEvent.coordinate.latitude;
     const longitude = event.nativeEvent.coordinate.longitude;
@@ -71,6 +64,15 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
     }
   };
 
+  const options = {
+    method: 'GET',
+    url: 'https://crime-data-by-zipcode-api.p.rapidapi.com/crime_data',
+    params: {zip: '94109'},
+    headers: {
+      'X-RapidAPI-Key': '77a344c291mshc1dbd1236846856p1a5acbjsn3df9efb79bd1',
+      'X-RapidAPI-Host': 'crime-data-by-zipcode-api.p.rapidapi.com',
+    },
+  };
   React.useEffect(() => {
     if (selectedZipCode) {
       const fetchCrimeData = async () => {
@@ -104,66 +106,11 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
         onLongPress={handleMapLongPress}
       />
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalTitle}>Crime Data:</Text>
-          {crimeData && (
-            <ScrollView style={styles.scrollView}>
-              <Text style={styles.overallCrime}>
-                {crimeData['Overall'].Fact}
-              </Text>
-              <Text style={styles.overallCrime}>
-                Risk Detail: {crimeData['Overall']['Risk Detail']}
-              </Text>
-              <Text style={styles.overallCrime}>
-                Risk Percent: {crimeData['Overall']['Risk']}
-              </Text>
-              {crimeData['Crime BreakDown'].map((crimeCategory, index) => (
-                <View key={index} style={styles.crimeCategory}>
-                  {Object.entries(crimeCategory).map(
-                    ([categoryKey, categoryValue]) => {
-                      // Skipping the "0" key
-                      if (categoryKey === '0') return null;
-
-                      return (
-                        <View key={categoryKey} style={styles.categorySection}>
-                          <Text style={styles.categoryTitle}>
-                            {categoryKey.replace(/_/g, ' ')}
-                          </Text>
-                          {typeof categoryValue === 'object' &&
-                          categoryValue !== null ? (
-                            Object.entries(categoryValue).map(
-                              ([key, value]) => (
-                                <Text key={key} style={styles.statistic}>
-                                  {`${key.replace(/_/g, ' ')}: ${value}`}{' '}
-                                  {/* Add description after value if needed */}
-                                </Text>
-                              ),
-                            )
-                          ) : (
-                            <Text style={styles.statistic}>
-                              {`${categoryKey.replace(
-                                /_/g,
-                                ' ',
-                              )}: ${categoryValue}`}{' '}
-                              {/* Add description after value if needed */}
-                            </Text>
-                          )}
-                        </View>
-                      );
-                    },
-                  )}
-                </View>
-              ))}
-            </ScrollView>
-          )}
-          <Button title="Close" onPress={() => setModalVisible(false)} />
-        </View>
-      </Modal>
+      <CrimeModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        crimeData={crimeData}
+      />
     </View>
   );
 };
