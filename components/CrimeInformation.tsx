@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   categorySection: {
     padding: 10,
     backgroundColor: 'white',
+    padding: 10,
   },
   riskText: {
     fontSize: 16,
@@ -99,11 +100,12 @@ const styles = StyleSheet.create({
   },
   crimeCategory: {
     borderColor: '#969696',
-    borderWidth: 0.3,
+    borderWidth: 0.5,
     // borderTopColor: 'white',
     // borderBottomColor: 'white',
     // borderLeftColor: 'white',
     // borderRightColor: 'white',
+    marginBottom: 10,
   },
   categoryTitle: {
     fontSize: 15,
