@@ -19,9 +19,9 @@ interface StarRatingComponentProps {
 
 const StarRatingComponent: React.FC<StarRatingComponentProps> = ({
   name,
-  value = 5,
+  value = 0,
   editing = true,
-  starCount = 10,
+  starCount = 5,
   starColor = '#ffb400',
   emptyStarColor = '#333',
   onStarClick,
@@ -72,7 +72,8 @@ const StarRatingComponent: React.FC<StarRatingComponentProps> = ({
   const renderStars = () => {
     const starStyles = (i: number) => ({
       cursor: editing ? 'pointer' : 'default',
-      color: i <= rating ? starColor : emptyStarColor,
+      color: rating <= i ? starColor : emptyStarColor,
+    
     });
 
     const starNodes = [];
@@ -86,7 +87,7 @@ const StarRatingComponent: React.FC<StarRatingComponentProps> = ({
         >
           <View
             style={{
-              marginRight: 5, // Adjust the spacing between stars as needed
+              marginRight: 10, // Adjust the spacing between stars as needed
             }}
           >
             <Text style={starStyles(i)}>
