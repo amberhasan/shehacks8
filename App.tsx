@@ -1,27 +1,21 @@
-// App.tsx
-import React, {useState} from 'react';
-import LoginScreen from './LoginScreen'; // Make sure the path is correct
-import HomeScreen from './HomeScreen'; // Make sure the path is correct
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import LoginScreen from './LoginScreen';
+import HomeScreen from './HomeScreen';
+import RegisterScreen from './RegisterScreen';
+
+const Stack = createNativeStackNavigator();
 
 const App: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
-
   return (
-    <>
-      {isLoggedIn ? (
-        <HomeScreen onLogout={handleLogout} />
-      ) : (
-        <LoginScreen onLogin={handleLogin} />
-      )}
-    </>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

@@ -7,26 +7,30 @@ import {
   StyleSheet,
 } from 'react-native';
 
-const LoginScreen = ({navigation}) => {
+const RegisterScreen = ({navigation}) => {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleLoginPress = () => {
-    // Perform login validation and authentication here
-    // For now, just navigate to HomeScreen
-    navigation.replace('Home');
+  const handleRegisterPress = () => {
+    // Perform registration logic here
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome back!</Text>
-
+      <Text style={styles.title}>Register to get started</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
-        autoCapitalize="none"
         keyboardType="email-address"
       />
       <TextInput
@@ -36,18 +40,22 @@ const LoginScreen = ({navigation}) => {
         onChangeText={setPassword}
         secureTextEntry
       />
-
-      <TouchableOpacity onPress={handleLoginPress} style={styles.loginButton}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm password"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+      />
+      <TouchableOpacity
+        onPress={handleRegisterPress}
+        style={styles.registerButton}>
+        <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
-
-      <Text style={styles.forgotPassword}>Forgot Password?</Text>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.register}>Don’t have an account? Register</Text>
-      </TouchableOpacity>
-
       <Text style={styles.safeguard}>safeguard</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.login}>Already have an account? Login</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -57,12 +65,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: 'white', // Assuming a white background
+    backgroundColor: 'white',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 48,
+    marginBottom: 20,
     textAlign: 'center',
   },
   input: {
@@ -73,8 +81,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 5,
   },
-  loginButton: {
-    backgroundColor: '#A6D12E', // Replace with the desired button color
+  registerButton: {
+    backgroundColor: '#A6D12E',
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 15,
@@ -86,23 +94,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  forgotPassword: {
-    color: 'blue',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  register: {
-    color: 'gray',
-    textAlign: 'center',
-  },
   safeguard: {
-    color: '#A6D12E',
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#A6D12E',
     position: 'absolute',
     bottom: 20,
     alignSelf: 'center',
   },
+  login: {
+    color: 'gray',
+    textAlign: 'center',
+    marginTop: 15,
+  },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
