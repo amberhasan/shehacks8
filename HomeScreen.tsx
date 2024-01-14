@@ -1,22 +1,27 @@
 // HomeScreen.tsx
 import React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
+import MapView from 'react-native-maps';
 
 const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
   return (
-    <View style={styles.container}>
-      <Text>Home Screen - Welcome!</Text>
-      <Button title="Log Out" onPress={onLogout} />
+    <View style={{flex: 1}}>
+      <Button title="Back" onPress={onLogout} />
+      <Button title="Back" onPress={onLogout} />
+      <Button title="Back" onPress={onLogout} />
+      <Button title="Back" onPress={onLogout} />
+
+      <MapView
+        style={{flex: 1}}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default HomeScreen;
