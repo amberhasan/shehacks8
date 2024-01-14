@@ -51,7 +51,7 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
     url: 'https://crime-data-by-zipcode-api.p.rapidapi.com/crime_data',
     params: {zip: '94109'},
     headers: {
-      'X-RapidAPI-Key': '4eb7ca5b31mshad479dddab5e550p143a16jsndcf60af7844f',
+      'X-RapidAPI-Key': '77a344c291mshc1dbd1236846856p1a5acbjsn3df9efb79bd1',
       'X-RapidAPI-Host': 'crime-data-by-zipcode-api.p.rapidapi.com',
     },
   };
@@ -70,6 +70,26 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
       console.error(error);
     }
   };
+
+  React.useEffect(() => {
+    if (selectedZipCode) {
+      const fetchCrimeData = async () => {
+        try {
+          options.params.zip = selectedZipCode;
+          const response = await axios.request(options);
+          setCrimeData(response.data);
+          // Assuming these properties exist on the response
+          setRiskDetail(response.data['Overall']['Risk Detail']);
+          setRiskPercent(response.data['Overall']['Risk Percent']);
+          console.log(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      fetchCrimeData();
+    }
+  }, [selectedZipCode]);
 
   return (
     <View style={{flex: 1}}>
