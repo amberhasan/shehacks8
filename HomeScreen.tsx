@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Button, Modal} from 'react-native';
+import {View, Text, StyleSheet, Button, Modal, ScrollView} from 'react-native';
 import MapView from 'react-native-maps';
 import axios from 'axios';
 
@@ -11,7 +11,8 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
     longitude: 0,
   });
   const [crimeData, setCrimeData] = useState(null);
-
+  const [riskDetail, setRiskDetail] = useState('');
+  const [riskPercent, setRiskPercent] = useState('');
   const getZipCode = async (latitude: number, longitude: number) => {
     // Fetch zip code using Google Maps Geocoding API
     try {
@@ -62,6 +63,8 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
     try {
       const response = await axios.request(options);
       setCrimeData(response.data);
+      setRiskDetail(response.data.RiskDetail);
+      setRiskPercent(response.data.RiskPercent);
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -89,19 +92,56 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}>
         <View style={styles.modalView}>
-          {/* ... (other texts remain unchanged) */}
-          <Text>Crime Data:</Text>
+          <Text style={styles.modalTitle}>Crime Data:</Text>
           {crimeData && (
-            <View>
-              {/* Map over the crime data and create text elements for each item */}
-              <Text>{`Crime Breakdown: ${JSON.stringify(
-                crimeData['Crime BreakDown'],
-                null,
-                2,
-              )}`}</Text>
-              <Text>{`Overall Crime: ${crimeData['Overall'].Fact}`}</Text>
-              {/* ... Display more data as needed */}
-            </View>
+            <ScrollView style={styles.scrollView}>
+              <Text style={styles.overallCrime}>
+                {crimeData['Overall'].Fact}
+              </Text>
+              <Text style={styles.overallCrime}>
+                Risk Detail: {crimeData['Overall']['Risk Detail']}
+              </Text>
+              <Text style={styles.overallCrime}>
+                Risk Percent: {crimeData['Overall']['Risk']}
+              </Text>
+              {crimeData['Crime BreakDown'].map((crimeCategory, index) => (
+                <View key={index} style={styles.crimeCategory}>
+                  {Object.entries(crimeCategory).map(
+                    ([categoryKey, categoryValue]) => {
+                      // Skipping the "0" key
+                      if (categoryKey === '0') return null;
+
+                      return (
+                        <View key={categoryKey} style={styles.categorySection}>
+                          <Text style={styles.categoryTitle}>
+                            {categoryKey.replace(/_/g, ' ')}
+                          </Text>
+                          {typeof categoryValue === 'object' &&
+                          categoryValue !== null ? (
+                            Object.entries(categoryValue).map(
+                              ([key, value]) => (
+                                <Text key={key} style={styles.statistic}>
+                                  {`${key.replace(/_/g, ' ')}: ${value}`}{' '}
+                                  {/* Add description after value if needed */}
+                                </Text>
+                              ),
+                            )
+                          ) : (
+                            <Text style={styles.statistic}>
+                              {`${categoryKey.replace(
+                                /_/g,
+                                ' ',
+                              )}: ${categoryValue}`}{' '}
+                              {/* Add description after value if needed */}
+                            </Text>
+                          )}
+                        </View>
+                      );
+                    },
+                  )}
+                </View>
+              ))}
+            </ScrollView>
           )}
           <Button title="Close" onPress={() => setModalVisible(false)} />
         </View>
@@ -112,10 +152,65 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
 
 const styles = StyleSheet.create({
   modalView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'center', // Align children along the main axis (for a column, this is vertically)
+    alignItems: 'center', // Align children along the cross axis (for a column, this is horizontally)
+    alignSelf: 'center', // Align Modal itself in the center of the parent container
+    marginTop: 'auto', // Push the modal down to the center
+    marginBottom: 'auto', // Same as above, for symmetrical positioning
+    height: '70%', // Set the height of the modal
+    width: '90%', // Set the width of the modal, adjust as needed
+    margin: 20,
     backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 15,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  statistic: {
+    fontSize: 14, // Choose an appropriate font size
+    marginVertical: 2, // Add some vertical margin for better readability
+    // You may want to add more styling as needed
+  },
+  riskText: {
+    fontSize: 16,
+    marginVertical: 4,
+    // ... additional styling as needed
+  },
+  modalTitle: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  scrollView: {
+    marginHorizontal: 20,
+  },
+  crimeCategory: {
+    marginBottom: 10,
+  },
+  categoryTitle: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  crimeStatistic: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  statisticTitle: {
+    fontStyle: 'italic',
+  },
+  statisticValue: {
+    fontWeight: 'bold',
+  },
+  overallCrime: {
+    marginTop: 10,
+    fontWeight: 'bold',
   },
 });
 
