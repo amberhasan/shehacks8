@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Button, Modal} from 'react-native';
 import MapView from 'react-native-maps';
+import axios from 'axios';
 
 const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -10,10 +11,7 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
     longitude: 0,
   });
 
-  const handleMapLongPress = async (event: any) => {
-    const latitude = event.nativeEvent.coordinate.latitude;
-    const longitude = event.nativeEvent.coordinate.longitude;
-
+  const getZipCode = async (latitude: number, longitude: number) => {
     // Fetch zip code using Google Maps Geocoding API
     try {
       const response = await fetch(
@@ -44,6 +42,27 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
       }
     } catch (error) {
       console.error('Error fetching data:', error);
+    }
+  };
+  const options = {
+    method: 'GET',
+    url: 'https://crime-data-by-zipcode-api.p.rapidapi.com/crime_data',
+    params: {zip: '94109'},
+    headers: {
+      'X-RapidAPI-Key': '4eb7ca5b31mshad479dddab5e550p143a16jsndcf60af7844f',
+      'X-RapidAPI-Host': 'crime-data-by-zipcode-api.p.rapidapi.com',
+    },
+  };
+  const handleMapLongPress = async (event: any) => {
+    const latitude = event.nativeEvent.coordinate.latitude;
+    const longitude = event.nativeEvent.coordinate.longitude;
+
+    getZipCode(latitude, longitude);
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
