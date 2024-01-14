@@ -28,6 +28,9 @@ end
 target 'SheHacks' do
   config = use_native_modules!
 
+  pod 'GoogleMaps' # Add this line
+
+
   use_react_native!(
     :path => config[:reactNativePath],
     # Enables Flipper.
