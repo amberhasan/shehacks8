@@ -5,6 +5,8 @@ import LoginScreen from './LoginScreen';
 import HomeScreen from './HomeScreen';
 import RegisterScreen from './RegisterScreen';
 import SplashScreen from './SplashScreen';
+import DonationScreen from './DonationScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +34,11 @@ const App: React.FC = () => {
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Donation"
+          component={DonationScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
