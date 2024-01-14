@@ -93,8 +93,6 @@ const HomeScreen: React.FC<{onLogout: () => void}> = ({onLogout}) => {
 
   return (
     <View style={{flex: 1}}>
-      <Button title="Back" onPress={onLogout} />
-
       <MapView
         style={{flex: 1}}
         initialRegion={{
