@@ -6,7 +6,9 @@ const CrimeInformation = ({crimeData}) => {
 
   return (
     <View>
-      <Text style={styles.overallCrime}>{crimeData['Overall'].Fact}</Text>
+      {crimeData && (
+        <Text style={styles.overallCrime}>{crimeData['Overall'].Fact}</Text>
+      )}
 
       {crimeData['Crime BreakDown'].map(
         (

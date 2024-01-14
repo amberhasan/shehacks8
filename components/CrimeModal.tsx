@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Modal,
   View,
@@ -19,12 +19,7 @@ const CrimeModal = ({modalVisible, setModalVisible, crimeData}) => {
       visible={modalVisible}
       onRequestClose={() => setModalVisible(false)}>
       <View style={styles.modalView}>
-        <TouchableOpacity
-          style={styles.closeButton}
-          onPress={() => setModalVisible(false)}>
-          <Text>X</Text>
-        </TouchableOpacity>
-        <Text style={styles.modalTitle}>Crime Data:</Text>
+        <Text style={styles.modalTitle}>Crime Data</Text>
         {crimeData && (
           <ScrollView style={styles.scrollView}>
             <CrimeInformation crimeData={crimeData} />
