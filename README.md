@@ -2,7 +2,7 @@
 
 Chosen as _Top 5 Projects at SheHacks8+ in London University_, **SafeGuard** is a _safety-focused map application_ that is inspired by the personal experiences of our group members. We shared a common experience of feeling unsafe while traveling alone. 
 
-This React Native application connects to three Google Maps API's and CrimeData API to allow users to:
+This React Native application connects to seven API's (including three Google Maps API's and CrimeData API) to allow users to:
 1. pin comments when you click on a location, about the safety of the location
 2. view crime statistics on zip codes when you long-press on the location
    
